@@ -157,7 +157,7 @@ namespace XMLResourceTree
         /// <summary>
         /// 文件
         /// </summary>
-        public const string rootFile = "rootFile";
+        public const string node = "node";
 
         /// <summary>
         /// 内容文件夹

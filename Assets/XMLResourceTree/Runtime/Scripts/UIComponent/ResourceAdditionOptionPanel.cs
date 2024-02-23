@@ -12,17 +12,25 @@ namespace XMLResourceTree
     {
         public enum Result
         {
+            node,
             folder,
             file,
             cancel
         }
 
+        public Button btnAddNodeRoot;
         public Button btnAddFolder;
         public Button btnAddFile;
         public Button btnCancel;
         private TaskCompletionSource<Result> _completeSource;
 
         public override string popupName => "ResourceAdditionOptionPanel";
+
+        void OnBtnAddNode()
+        {
+            _completeSource?.SetResult(Result.node);
+        }
+
 
         void OnBtnAddFolder()
         {
@@ -47,6 +55,7 @@ namespace XMLResourceTree
 
         public override async Task OnPopupGoingShow()
         {
+            btnAddNodeRoot.onClick.AddListener(OnBtnAddNode);
             btnAddFolder.onClick.AddListener(OnBtnAddFolder);
             btnAddFile.onClick.AddListener(OnBtnAddFile);
             btnCancel.onClick.AddListener(OnBtnCancel);

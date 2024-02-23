@@ -74,7 +74,7 @@ namespace XMLResourceTree
                         }
                     });
                 }
-                else if (xrtNode.type != XRTNodeTypes.rootFile)
+                else if (xrtNode.type != XRTNodeTypes.node)
                 {
                     StandaloneFileBrowser.OpenFilePanelAsync("Open File", path, "", false, (string[] paths) =>
                     {
@@ -122,6 +122,14 @@ namespace XMLResourceTree
                     if (result == ResourceAdditionOptionPanel.Result.folder)
                     {
                         node.type = XRTNodeTypes.folder;
+                    }
+                    else if (result == ResourceAdditionOptionPanel.Result.node)
+                    {
+                        node.type = XRTNodeTypes.node;
+                    }
+                    else if (result == ResourceAdditionOptionPanel.Result.file)
+                    { 
+                        node.type = XRTNodeTypes.file;
                     }
                     if (xrtNode.ChildrenNode == null)
                     {
@@ -176,7 +184,9 @@ namespace XMLResourceTree
                     this.xrtNode = node;
                     nameInput.text = node.name;
                     paramatersInput.text = node.paramaters;
-                    btnOpenFile.gameObject.SetActive(node.type != XRTNodeTypes.rootFile);
+                    btnOpenFile.gameObject.SetActive(node.type != XRTNodeTypes.node);
+                    // root 节点可以进行预览，点击后是定位xml文件
+                    btnPreview.gameObject.SetActive(node.type != XRTNodeTypes.node || node.parent == null);
                     btnOpenFile.GetComponentInChildren<Text>().text = node.type == XRTNodeTypes.folder ? "选择文件夹" : "选择文件";
                     btnOpenFile.GetComponentInChildren<Text>().color = node.type == XRTNodeTypes.folder ? new Color(0.11f, 0.61f, 0) : new Color(0.47f, 0.61f, 1);
                     this._configFilePath = configFilePath;

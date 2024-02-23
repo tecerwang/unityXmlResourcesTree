@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<XRTNode xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="1133" type="rootFile">
-  <XRTNode>
-    <XRTNode />
-  </XRTNode>
-  <XRTNode name="1111" paramaters="SSS" path="StreamingAssets\示例根目录\图片组\672a3e92071817a7637bc94b7c2daf8a.jpg" />
-</XRTNode>

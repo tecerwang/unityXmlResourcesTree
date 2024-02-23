@@ -85,7 +85,7 @@ namespace XMLResourceTree
                     {
                         XRTNode node = new XRTNode()
                         {
-                            type = XRTNodeTypes.rootFile,
+                            type = XRTNodeTypes.node,
                             name = fileName
                         };
                         var filePath = Application.streamingAssetsPath + "/" + fileName;
