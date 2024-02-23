@@ -6,64 +6,67 @@ using UnityEngine.UI;
 using UIFramework;
 using System.Threading.Tasks;
 
-public class ResourceAdditionOptionPanel : UIPopupBase
+namespace XMLResourceTree
 {
-    public enum Result
-    { 
-        folder,
-        file,
-        cancel
-    }
-
-    public Button btnAddFolder;
-    public Button btnAddFile;
-    public Button btnCancel;
-    private TaskCompletionSource<Result> _completeSource;
-
-    public override string popupName => "ResourceAdditionOptionPanel";
-   
-    void OnBtnAddFolder()
+    public class ResourceAdditionOptionPanel : UIPopupBase
     {
-        _completeSource?.SetResult(Result.folder);
-    }
+        public enum Result
+        {
+            folder,
+            file,
+            cancel
+        }
 
-    void OnBtnAddFile()
-    {
-        _completeSource?.SetResult(Result.file);
-    }
+        public Button btnAddFolder;
+        public Button btnAddFile;
+        public Button btnCancel;
+        private TaskCompletionSource<Result> _completeSource;
 
-    void OnBtnCancel()
-    {
-        _completeSource?.SetResult(Result.cancel);
-    }
+        public override string popupName => "ResourceAdditionOptionPanel";
 
-    public async Task<Result> InvokePanel()
-    {
-        _completeSource = new TaskCompletionSource<Result>();
-        return await _completeSource.Task;
-    }
+        void OnBtnAddFolder()
+        {
+            _completeSource?.SetResult(Result.folder);
+        }
 
-    public override async Task OnPopupGoingShow()
-    {
-        btnAddFolder.onClick.AddListener(OnBtnAddFolder);
-        btnAddFile.onClick.AddListener(OnBtnAddFile);
-        btnCancel.onClick.AddListener(OnBtnCancel);
+        void OnBtnAddFile()
+        {
+            _completeSource?.SetResult(Result.file);
+        }
 
-        await Task.CompletedTask;
-    }
+        void OnBtnCancel()
+        {
+            _completeSource?.SetResult(Result.cancel);
+        }
 
-    public override async Task OnPopupShown()
-    {
-        await Task.CompletedTask;
-    }
+        public async Task<Result> InvokePanel()
+        {
+            _completeSource = new TaskCompletionSource<Result>();
+            return await _completeSource.Task;
+        }
 
-    public override async Task OnPopupGoingLeave()
-    {
-        await Task.CompletedTask;
-    }
+        public override async Task OnPopupGoingShow()
+        {
+            btnAddFolder.onClick.AddListener(OnBtnAddFolder);
+            btnAddFile.onClick.AddListener(OnBtnAddFile);
+            btnCancel.onClick.AddListener(OnBtnCancel);
 
-    public override async Task OnPopupHidden()
-    {
-        await Task.CompletedTask;
+            await Task.CompletedTask;
+        }
+
+        public override async Task OnPopupShown()
+        {
+            await Task.CompletedTask;
+        }
+
+        public override async Task OnPopupGoingLeave()
+        {
+            await Task.CompletedTask;
+        }
+
+        public override async Task OnPopupHidden()
+        {
+            await Task.CompletedTask;
+        }
     }
 }
