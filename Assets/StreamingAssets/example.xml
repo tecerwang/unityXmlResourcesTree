@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<XRTNode xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="根目录" type="folder" path="StreamingAssets\示例根目录">
+  <XRTNode name="13" paramaters="asdfasdfasdf" path="StreamingAssets\示例根目录\图片\2c74600e6703b019d9382157120c02a7.jpg" />
+  <XRTNode paramaters="3" type="folder">
+    <XRTNode path="StreamingAssets\示例根目录\图片\文字.txt" />
+  </XRTNode>
+  <XRTNode name="sdhif " paramaters="2" type="folder" path="StreamingAssets\示例根目录" />
+  <XRTNode paramaters="1" type="folder" path="StreamingAssets\示例根目录\图片" />
+  <XRTNode type="folder" />
+  <XRTNode type="folder" />
+</XRTNode>
