@@ -72,7 +72,7 @@ namespace XMLResourceTree
                     }
                 });
             }
-            else
+            else if (xrtNode.type != XRTNodeTypes.rootFile)
             {
                 StandaloneFileBrowser.OpenFilePanelAsync("Open File", path, "", false, (string[] paths) =>
                 {
@@ -174,6 +174,7 @@ namespace XMLResourceTree
                 this.xrtNode = node;
                 nameInput.text = node.name;
                 paramatersInput.text = node.paramaters;
+                btnOpenFile.gameObject.SetActive(node.type != XRTNodeTypes.rootFile);
                 btnOpenFile.GetComponentInChildren<Text>().text = node.type == XRTNodeTypes.folder ? "选择文件夹" : "选择文件";
                 btnOpenFile.GetComponentInChildren<Text>().color = node.type == XRTNodeTypes.folder ? new Color(0.11f, 0.61f, 0) : new Color(0.47f, 0.61f, 1);
                 this._configFilePath = configFilePath;
@@ -209,9 +210,8 @@ namespace XMLResourceTree
         private void ResetDisplayStyle()
         {
             btnSave.gameObject.SetActive(xrtNode.parent == null);
-            btnAdd.gameObject.SetActive(xrtNode.type == XRTNodeTypes.folder);
-
-            btnDropdown.gameObject.SetActive(xrtNode.type == XRTNodeTypes.folder
+            btnAdd.gameObject.SetActive(xrtNode.type != XRTNodeTypes.file);
+            btnDropdown.gameObject.SetActive(xrtNode.type != XRTNodeTypes.file
                 && xrtNode.ChildrenNode != null
                 && xrtNode.ChildrenNode.Count > 0);
         }

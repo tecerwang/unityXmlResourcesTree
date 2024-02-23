@@ -6,6 +6,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using XMLResourceTree;
 using UIFramework;
+using System.Xml;
+using System.Threading.Tasks;
+using System;
 
 namespace XMLResourceTree
 {
@@ -64,9 +67,34 @@ namespace XMLResourceTree
             }
             menuFileOptions.ShrinkAfterOperationSuccess();
         }
-        private void CreateFile()
+        private async void CreateFile()
         {
-            menuFileOptions.ShrinkAfterOperationSuccess();
+            var loader = new AssetLoaderResource<GameObject>("NewFileNameInputPopup");
+            var popup = await PopupScreen.singleton.CreatePopup(loader) as NewFileNameInputPopup;
+            if (popup != null)
+            {
+                var fileName = await popup.WaitingForResult();
+                await PopupScreen.singleton.DestoryPopup(popup.gameObject);
+                if (string.IsNullOrEmpty(fileName))
+                {
+                    menuFileOptions.ShrinkAfterOperationSuccess();
+                }
+                else
+                {
+                    XRTNode node = new XRTNode()
+                    {
+                        type = XRTNodeTypes.rootFile,
+                        name = fileName
+                    };
+                    var filePath = Application.streamingAssetsPath + "/" + fileName;
+                    if (!filePath.EndsWith(".xml", StringComparison.OrdinalIgnoreCase))
+                    {
+                        filePath += ".xml";
+                    }
+                    node.Save2File(filePath);
+                    HandleXMLConfigFile(filePath);
+                }
+            }
         }
 
         private void HandleXMLConfigFile(string xmlPath)
@@ -81,6 +109,11 @@ namespace XMLResourceTree
                 configPathName.text = xmlPath;
             }
             menuFileOptions.ShrinkAfterOperationSuccess();
+        }
+
+        private static void CreateXMLFile(string fileName)
+        {
+            
         }
     }
 }

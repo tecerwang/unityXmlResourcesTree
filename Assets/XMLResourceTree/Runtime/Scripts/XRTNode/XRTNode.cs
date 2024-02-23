@@ -155,29 +155,19 @@ namespace XMLResourceTree
     public static class XRTNodeTypes
     {
         /// <summary>
+        /// 文件
+        /// </summary>
+        public const string rootFile = "rootFile";
+
+        /// <summary>
         /// 内容文件夹
         /// </summary>        
         public const string folder = "folder";
+
         /// <summary>
-        ///  文字类型
+        /// 文件
         /// </summary>
-        public const string txt = "txt";
-        /// <summary>
-        /// jpg image
-        /// </summary>
-        public const string jpg = "jpg";
-        /// <summary>
-        /// png image
-        /// </summary>
-        public const string png = "png";
-        /// <summary>
-        /// mp4 video
-        /// </summary>
-        public const string mp4 = "mp4";
-        /// <summary>
-        /// mp3 audio
-        /// </summary>
-        public const string mp3 = "mp3";
+        public const string file = "file";
 
         public static string ParseTypeByPath(string path)
         {

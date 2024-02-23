@@ -1,0 +1,24 @@
+{
+    "name": "com.xrtnode.unity",
+    "version": "0.0.1",
+    "displayName": "Unity Xml ResourcesTree",
+    "description": "Use xml to persist files or folder and logic tree within unity StreamingAssets and loaded in runtime",
+    "unity": "2019.1",
+    "unityRelease": "0b5",
+    "dependencies": {
+    },
+    "keywords": [
+        "unity",
+        "streamingAssets",
+        "xml"
+    ],
+    "author": {
+        "name": "wangyanqing",
+        "email": "1025981817@qq.com"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/tecerwang/unityXmlResourcesTree.git",
+        "subdirectory": "Assets/XMLResourceTree"
+    }
+}
