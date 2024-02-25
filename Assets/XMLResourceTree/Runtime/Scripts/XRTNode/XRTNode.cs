@@ -2,11 +2,113 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Xml.Serialization;
 using UnityEngine;
 
 namespace XMLResourceTree
 {
+    /// <summary>
+    /// xml 文件的根节点
+    /// </summary>
+    public class XMLNodeRoot
+    {
+        [XmlArray("rules")]
+        public XRTNodeDisplayRule[] rules;
+        public XRTNode node;
+
+        [XmlIgnore]
+        public string filePath { get; private set; }
+
+        /// <summary>
+        /// 保存文件为同步方法，会阻塞 Unity 线程
+        /// </summary>
+        public void Save2File()
+        {
+            if (string.IsNullOrEmpty(filePath))
+            {
+                Debug.LogError("File path is null or empty. Save operation aborted.");
+                return;
+            }
+
+            try
+            {
+                using (StreamWriter writer = new StreamWriter(filePath))
+                {
+                    XmlSerializer serializer = new XmlSerializer(typeof(XMLNodeRoot));                   
+                    serializer.Serialize(writer, this);
+                }
+
+                Debug.Log("XMLNodeRoot saved successfully to: " + filePath);
+            }
+            catch (InvalidOperationException ex)
+            {
+                Debug.LogError("Error saving XMLNodeRoot to file: " + ex.Message);
+            }
+        }
+
+        public void CreateFile(string filePath)
+        {
+            if (string.IsNullOrEmpty(filePath))
+            {
+                Debug.LogError("File path is null or empty. Create operation aborted.");
+                return;
+            }
+
+            if (System.IO.File.Exists(filePath))
+            {
+                Debug.Log("File already exist at " + filePath);
+                return;
+            }
+
+            this.filePath = filePath;
+            Save2File();
+        }
+
+        public static XMLNodeRoot LoadFromFile(string filePath)
+        {
+            XMLNodeRoot root = null;
+            if (!string.IsNullOrEmpty(filePath) && !string.IsNullOrEmpty(filePath))
+            {
+                using (StreamReader reader = new StreamReader(filePath))
+                {
+                    XmlSerializer serializer = new XmlSerializer(typeof(XMLNodeRoot));
+                    root = (XMLNodeRoot)serializer.Deserialize(reader);
+                    reader.Close();
+                }
+                if (root != null && root.node != null)
+                {
+                    root.filePath = filePath;
+                    // 先给自己赋值
+                    root.node.parent = null;
+                    root.node.xmlRoot = root;
+                    root.node.rule = root.rules?.Where(p => p.ruleName == root.node.ruleName).FirstOrDefault();
+                    // 递归赋值
+                    SetNodeParentValue(root.node, root);
+                }
+            }
+            return root;
+        }
+
+        /// <summary>
+        /// 递归赋值 parentNode
+        /// </summary>
+        /// <param name="node"></param>
+        private static void SetNodeParentValue(XRTNode node, XMLNodeRoot xmlRoot)
+        {
+            if (node != null && node.ChildrenNode != null && node.ChildrenNode.Count > 0)
+            {
+                foreach (var cnode in node.ChildrenNode)
+                {
+                    cnode.parent = node;
+                    cnode.xmlRoot = xmlRoot;
+                    cnode.rule = xmlRoot.rules?.Where(p => p.ruleName == cnode.ruleName).FirstOrDefault();
+                    SetNodeParentValue(cnode, xmlRoot);
+                }
+            }
+        }
+    }
+
     /// <summary>
     /// xml resource node, xml 热加载资源
     /// </summary>
@@ -36,8 +138,26 @@ namespace XMLResourceTree
         [XmlAttribute("path")]
         public string path;
 
+        /// <summary>
+        /// 节点显示规则
+        /// </summary>
+        [XmlAttribute("ruleName")]
+        public string ruleName;
+
         [XmlElement("XRTNode")]
         public List<XRTNode> ChildrenNode;
+
+        /// <summary>
+        /// 这个节点的显示规则
+        /// </summary>
+        [XmlIgnore]
+        public XRTNodeDisplayRule rule;
+
+        /// <summary>
+        /// xml 文件根节点
+        /// </summary>
+        [XmlIgnore]
+        public XMLNodeRoot xmlRoot;
 
         [XmlIgnore]
         public XRTNode parent { get; set; }
@@ -71,71 +191,6 @@ namespace XMLResourceTree
 
             return absolutePath;
         }
-
-        public static XRTNode LoadNodeTreeByPath(string path)
-        {
-            XRTNode node = null;
-            if (!string.IsNullOrEmpty(path) && !string.IsNullOrEmpty(path))
-            {
-                using (StreamReader reader = new StreamReader(path))
-                {
-                    XmlSerializer serializer = new XmlSerializer(typeof(XRTNode));
-                    node = (XRTNode)serializer.Deserialize(reader);
-                    reader.Close();
-                }
-            }
-            SetNodeParentValue(node);
-            return node;
-        }
-
-        /// <summary>
-        /// 递归赋值 parentNode
-        /// </summary>
-        /// <param name="node"></param>
-        private static void SetNodeParentValue(XRTNode node)
-        {
-            if (node != null && node.ChildrenNode != null && node.ChildrenNode.Count > 0)
-            {
-                foreach (var cnode in node.ChildrenNode)
-                {
-                    cnode.parent = node;
-                    SetNodeParentValue(cnode);
-                }
-            }
-        }
-
-        /// <summary>
-        /// 保存文件为同步方法，会阻塞 Unity 线程
-        /// </summary>
-        public void Save2File(string filePath)
-        {
-            if (string.IsNullOrEmpty(filePath))
-            {
-                Debug.LogError("File path is null or empty. Save operation aborted.");
-                return;
-            }
-
-            try
-            {
-                using (StreamWriter writer = new StreamWriter(filePath))
-                {
-                    XmlSerializer serializer = new XmlSerializer(typeof(XRTNode));
-                    // 从根节点保存
-                    var rootNode = this;
-                    while (rootNode.parent != null)
-                    {
-                        rootNode = rootNode.parent;
-                    }
-                    serializer.Serialize(writer, rootNode);
-                }
-
-                Debug.Log("XRTNode saved successfully to: " + filePath);
-            }
-            catch (Exception ex)
-            {
-                Debug.LogError("Error saving XRTNode to file: " + ex.Message);
-            }
-        }
     }
 
     ///// <summary>
@@ -155,8 +210,8 @@ namespace XMLResourceTree
     public static class XRTNodeTypes
     {
         /// <summary>
-        /// 文件
-        /// </summary>
+        /// 内容文件夹
+        /// </summary>        
         public const string node = "node";
 
         /// <summary>

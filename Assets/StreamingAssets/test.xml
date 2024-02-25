@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<XRTNode xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="test" type="node">
-  <XRTNode name="1111" type="node" />
-  <XRTNode type="folder" />
-  <XRTNode type="file" />
-  <XRTNode type="node" />
-</XRTNode>

@@ -22,8 +22,6 @@ namespace XMLResourceTree
 
             private GameObject _nodePrefab;
 
-            private string _configFilePath = string.Empty;
-
             public InputField nameInput;
             public InputField paramatersInput;
             public Button btnOpenFile;
@@ -74,7 +72,7 @@ namespace XMLResourceTree
                         }
                     });
                 }
-                else if (xrtNode.type != XRTNodeTypes.node)
+                else if (xrtNode.type == XRTNodeTypes.file)
                 {
                     StandaloneFileBrowser.OpenFilePanelAsync("Open File", path, "", false, (string[] paths) =>
                     {
@@ -95,9 +93,9 @@ namespace XMLResourceTree
 
             private void OnBtnSave()
             {
-                if (xrtNode != null && !string.IsNullOrEmpty(_configFilePath))
+                if (xrtNode != null)
                 {
-                    xrtNode.Save2File(_configFilePath);
+                    xrtNode.xmlRoot.Save2File();
                 }
             }
 
@@ -109,6 +107,11 @@ namespace XMLResourceTree
                 }
                 var loader = new AssetLoaderResource<GameObject>("ResourceAdditionOptionPanel");
                 var panel = await PopupScreen.singleton.CreatePopup(loader, null) as ResourceAdditionOptionPanel;
+                // 如果这个 display 有显示规则更改，则应用显示规则
+                if (xrtNode.rule != null)
+                {
+                    panel.ApplyRule(xrtNode.rule.resourceAddition);
+                }
                 var result = await panel.InvokePanel();
                 await PopupScreen.singleton.DestoryPopup(panel.gameObject);
 
@@ -119,16 +122,34 @@ namespace XMLResourceTree
                 else
                 {
                     var node = new XRTNode();
-                    if (result == ResourceAdditionOptionPanel.Result.folder)
+                    if (result == ResourceAdditionOptionPanel.Result.node)
                     {
-                        node.type = XRTNodeTypes.folder;
-                    }
-                    else if (result == ResourceAdditionOptionPanel.Result.node)
-                    {
+                        // 按照规则创建节点规则名称
+                        var rule = this.xrtNode?.rule?.resourceAddition?.btnNewNode;
+                        if (rule != null && rule.actionType == DisplayRule.ActionType.createNode)
+                        {
+                            node.ruleName = rule.actionParam;
+                        }
                         node.type = XRTNodeTypes.node;
                     }
+                    else if (result == ResourceAdditionOptionPanel.Result.folder)
+                    {
+                        // 按照规则创建节点规则名称
+                        var rule = this.xrtNode?.rule?.resourceAddition?.btnNewFolder;
+                        if (rule != null && rule.actionType == DisplayRule.ActionType.createNode)
+                        {
+                            node.ruleName = rule.actionParam;
+                        }
+                        node.type = XRTNodeTypes.folder;
+                    }                 
                     else if (result == ResourceAdditionOptionPanel.Result.file)
-                    { 
+                    {
+                        // 按照规则创建节点规则名称
+                        var rule = this.xrtNode?.rule?.resourceAddition?.btnNewFile;
+                        if (rule != null && rule.actionType == DisplayRule.ActionType.createNode)
+                        {
+                            node.ruleName = rule.actionParam;
+                        }
                         node.type = XRTNodeTypes.file;
                     }
                     if (xrtNode.ChildrenNode == null)
@@ -137,8 +158,14 @@ namespace XMLResourceTree
                     }
                     xrtNode.ChildrenNode.Add(node);
                     node.parent = xrtNode;
+                    node.xmlRoot = xrtNode.xmlRoot;
+                    // 添加时，规则设定
+                    if (!string.IsNullOrEmpty(node.ruleName))
+                    {
+                        node.rule = node.xmlRoot?.rules?.Where(p => p.ruleName == node.ruleName).FirstOrDefault();
+                    }
                     var cinstance = GameObject.Instantiate(_nodePrefab, childrenDisplay).GetComponent<XRTNodeDisplay>();
-                    cinstance.SetXRTNode(node, _nodePrefab, _configFilePath);
+                    cinstance.SetXRTNode(node, _nodePrefab);
                 }
             }
 
@@ -176,7 +203,7 @@ namespace XMLResourceTree
                 xrtNode.paramaters = value;
             }
 
-            public void SetXRTNode(XRTNode node, GameObject prefab, string configFilePath)
+            public void SetXRTNode(XRTNode node, GameObject prefab)
             {
                 _nodePrefab = prefab;
                 if (node != null)
@@ -184,19 +211,24 @@ namespace XMLResourceTree
                     this.xrtNode = node;
                     nameInput.text = node.name;
                     paramatersInput.text = node.paramaters;
-                    btnOpenFile.gameObject.SetActive(node.type != XRTNodeTypes.node);
-                    // root 节点可以进行预览，点击后是定位xml文件
-                    btnPreview.gameObject.SetActive(node.type != XRTNodeTypes.node || node.parent == null);
-                    btnOpenFile.GetComponentInChildren<Text>().text = node.type == XRTNodeTypes.folder ? "选择文件夹" : "选择文件";
-                    btnOpenFile.GetComponentInChildren<Text>().color = node.type == XRTNodeTypes.folder ? new Color(0.11f, 0.61f, 0) : new Color(0.47f, 0.61f, 1);
-                    this._configFilePath = configFilePath;
 
+                    var displayRule = node.rule?.nodeDisplay;
+                    if (displayRule != null)
+                    {
+                        displayRule.inputName.ApplyInputField(nameInput);
+                        displayRule.inputParams.ApplyInputField(paramatersInput);
+                        displayRule.btnSelectFile.ApplyBtnRule(btnOpenFile);
+                        displayRule.btnPreview.ApplyBtnRule(btnPreview);
+                        displayRule.btnSave.ApplyBtnRule(btnSave);
+                        displayRule.btnAddNode.ApplyBtnRule(btnAdd);
+                        displayRule.btnRemoveNode.ApplyBtnRule(btnMinus);
+                    }
                     if (node.ChildrenNode != null && node.ChildrenNode.Count > 0)
                     {
                         foreach (var cnode in node.ChildrenNode)
                         {
                             var cinstance = GameObject.Instantiate(_nodePrefab, childrenDisplay);
-                            cinstance.GetComponent<XRTNodeDisplay>().SetXRTNode(cnode, _nodePrefab, configFilePath);
+                            cinstance.GetComponent<XRTNodeDisplay>().SetXRTNode(cnode, _nodePrefab);
                         }
                     }
                 }
@@ -215,17 +247,8 @@ namespace XMLResourceTree
 
                 if (Application.isPlaying)
                 {
-                    ResetDisplayStyle();
+                    btnDropdown.gameObject.SetActive(xrtNode.ChildrenNode != null && xrtNode.ChildrenNode.Count > 0);
                 }
-            }
-
-            private void ResetDisplayStyle()
-            {
-                btnSave.gameObject.SetActive(xrtNode.parent == null);
-                btnAdd.gameObject.SetActive(xrtNode.type != XRTNodeTypes.file);
-                btnDropdown.gameObject.SetActive(xrtNode.type != XRTNodeTypes.file
-                    && xrtNode.ChildrenNode != null
-                    && xrtNode.ChildrenNode.Count > 0);
             }
         }
     }

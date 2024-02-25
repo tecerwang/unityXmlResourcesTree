@@ -53,6 +53,18 @@ namespace XMLResourceTree
             return await _completeSource.Task;
         }
 
+        public void ApplyRule(ResourceAdditionDisplayRules rules)
+        {
+            if (rules == null)
+            {
+                return;
+            }
+
+            rules.btnNewNode.ApplyBtnRule(btnAddNodeRoot);
+            rules.btnNewFolder.ApplyBtnRule(btnAddFolder);
+            rules.btnNewFile.ApplyBtnRule(btnAddFile);
+        }
+
         public override async Task OnPopupGoingShow()
         {
             btnAddNodeRoot.onClick.AddListener(OnBtnAddNode);

@@ -23,9 +23,9 @@ namespace XMLResourceTree
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        public static XRTNode LoadNodeTreeByStreamingAssetsRefPath(string refPath)
+        public static XMLNodeRoot LoadNodeTreeByStreamingAssetsRefPath(string refPath)
         {
-            return XRTNode.LoadNodeTreeByPath(Application.streamingAssetsPath + "/" + refPath);
+            return XMLNodeRoot.LoadFromFile(Application.streamingAssetsPath + "/" + refPath);
         }
 
         /// <summary>

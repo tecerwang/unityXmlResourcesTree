@@ -27,8 +27,7 @@ namespace XMLResourceTree
             public Text configPathName;
 
             public DropdownBtn menuFileOptions;
-
-            private XRTNode _curNode;
+            private XMLNodeRoot _nodeRoot;
 
             private string _curXmlPath;
 
@@ -61,14 +60,16 @@ namespace XMLResourceTree
                     }
                 });
             }
+
             private void SaveFile()
             {
-                if (_curNode != null && !string.IsNullOrEmpty(_curXmlPath))
+                if (_nodeRoot != null && !string.IsNullOrEmpty(_curXmlPath))
                 {
-                    _curNode.Save2File(_curXmlPath);
+                    _nodeRoot.Save2File();
                 }
                 menuFileOptions.ShrinkAfterOperationSuccess();
             }
+
             private async void CreateFile()
             {
                 var loader = new AssetLoaderResource<GameObject>("NewFileNameInputPopup");
@@ -83,17 +84,29 @@ namespace XMLResourceTree
                     }
                     else
                     {
-                        XRTNode node = new XRTNode()
+                        XMLNodeRoot root = new XMLNodeRoot()
                         {
-                            type = XRTNodeTypes.node,
-                            name = fileName
+                            rules = new XRTNodeDisplayRule[] 
+                            { 
+                                XRTNodeDisplayRule.DefaultRootRule,
+                                XRTNodeDisplayRule.DefaultNodeRule,
+                                XRTNodeDisplayRule.DefaultFileRule,
+                                XRTNodeDisplayRule.DefaultFolderRule,
+                            },
+                            node = new XRTNode()
+                            {
+                                type = XRTNodeTypes.file,
+                                name = fileName,
+                                // 设置一个基础的显示规则
+                                ruleName = XRTNodeDisplayRule.DefaultRootRule.ruleName
+                            }
                         };
                         var filePath = Application.streamingAssetsPath + "/" + fileName;
                         if (!filePath.EndsWith(".xml", StringComparison.OrdinalIgnoreCase))
                         {
                             filePath += ".xml";
                         }
-                        node.Save2File(filePath);
+                        root.CreateFile(filePath);
                         HandleXMLConfigFile(filePath);
                     }
                 }
@@ -102,20 +115,16 @@ namespace XMLResourceTree
             private void HandleXMLConfigFile(string xmlPath)
             {
                 _curXmlPath = xmlPath;
-                _curNode = XRTNode.LoadNodeTreeByPath(xmlPath);
-                if (_curNode != null)
+                _nodeRoot = XMLNodeRoot.LoadFromFile(_curXmlPath);
+                var node = _nodeRoot?.node;
+                if (node != null)
                 {
                     contentRoot.DestroyChildren();
                     GameObject instanceObject = GameObject.Instantiate(nodePrefab, contentRoot);
-                    instanceObject.GetComponent<XRTNodeDisplay>().SetXRTNode(_curNode, nodePrefab, xmlPath);
+                    instanceObject.GetComponent<XRTNodeDisplay>().SetXRTNode(node, nodePrefab);
                     configPathName.text = xmlPath;
                 }
                 menuFileOptions.ShrinkAfterOperationSuccess();
-            }
-
-            private static void CreateXMLFile(string fileName)
-            {
-
             }
         }
     }
