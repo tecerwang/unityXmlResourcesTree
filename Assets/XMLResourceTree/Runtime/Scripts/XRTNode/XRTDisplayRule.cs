@@ -170,7 +170,7 @@ namespace XMLResourceTree
                 },
                 inputParams = new DisplayRule()
                 {
-                    inputPlaceHolder = "input paramters if it is need"
+                    inputPlaceHolder = "input paramters if it is required"
                 },
                 btnPreview = new DisplayRule(),
                 btnSave = new DisplayRule(),
