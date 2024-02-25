@@ -87,18 +87,18 @@ namespace XMLResourceTree
                         XMLNodeRoot root = new XMLNodeRoot()
                         {
                             rules = new XRTNodeDisplayRule[] 
-                            { 
-                                XRTNodeDisplayRule.DefaultRootRule,
-                                XRTNodeDisplayRule.DefaultNodeRule,
-                                XRTNodeDisplayRule.DefaultFileRule,
-                                XRTNodeDisplayRule.DefaultFolderRule,
+                            {
+                                DisplayRuleUtility.DefaultRootRule,
+                                DisplayRuleUtility.DefaultNodeRule,
+                                DisplayRuleUtility.DefaultFileRule,
+                                DisplayRuleUtility.DefaultFolderRule,
                             },
                             node = new XRTNode()
                             {
                                 type = XRTNodeTypes.file,
                                 name = fileName,
                                 // 设置一个基础的显示规则
-                                ruleName = XRTNodeDisplayRule.DefaultRootRule.ruleName
+                                ruleName = DisplayRuleUtility.DefaultRootRule.ruleName
                             }
                         };
                         var filePath = Application.streamingAssetsPath + "/" + fileName;

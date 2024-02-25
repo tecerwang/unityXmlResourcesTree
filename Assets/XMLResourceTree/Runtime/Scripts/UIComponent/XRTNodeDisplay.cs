@@ -66,7 +66,10 @@ namespace XMLResourceTree
                 {
                     if (paths != null && paths.Length >= 1)
                     {
-                        xrtNode.path = XRTNode.GetRelativePath(Application.streamingAssetsPath, paths.FirstOrDefault());
+                        var path = paths.FirstOrDefault();
+                        xrtNode.path = XRTNode.GetRelativePath(Application.streamingAssetsPath, path);
+                        xrtNode.name = Path.GetFileName(path);
+                        nameInput.text = xrtNode.name;
                     }
                 });
             }
@@ -76,8 +79,11 @@ namespace XMLResourceTree
                 {
                     if (paths != null && paths.Length >= 1)
                     {
+                        var path = paths.FirstOrDefault();
                         xrtNode.path = paths.FirstOrDefault();
-                        xrtNode.path = XRTNode.GetRelativePath(Application.streamingAssetsPath, xrtNode.path);
+                        xrtNode.path = XRTNode.GetRelativePath(Application.streamingAssetsPath, path);
+                        xrtNode.name = Path.GetFileName(path);// also can get folder name as get file name
+                        nameInput.text = xrtNode.name;
                     }
                 });
             }
@@ -110,7 +116,7 @@ namespace XMLResourceTree
             {
                 panel.ApplyRule(xrtNode.rule.resourceAddition);
             }
-            var result = await panel.InvokePanel();
+            var result = await panel.AwaitForSelection();
             await PopupScreen.singleton.DestoryPopup(panel.gameObject);
 
             if (result == ResourceAdditionOptionPanel.Result.cancel)
@@ -213,8 +219,8 @@ namespace XMLResourceTree
                 var displayRule = node.rule?.nodeDisplay;
                 if (displayRule != null)
                 {
-                    displayRule.inputName.ApplyInputField(nameInput);
-                    displayRule.inputParams.ApplyInputField(paramatersInput);
+                    displayRule.inputName.ApplyInputFieldRule(nameInput);
+                    displayRule.inputParams.ApplyInputFieldRule(paramatersInput);
                     displayRule.btnSelectFile.ApplyBtnRule(btnOpenFile);
                     displayRule.btnPreview.ApplyBtnRule(btnPreview);
                     displayRule.btnSave.ApplyBtnRule(btnSave);

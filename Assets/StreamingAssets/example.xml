@@ -4,79 +4,75 @@
     <XRTNodeDisplayRule>
       <ruleName>DefaultRootRule</ruleName>
       <resourceAddition>
-        <btnNewNode text="Add new node" force2Hide="false" actionType="createNode" actionParam="DefaultNodeRule" />
-        <btnNewFolder text="Add new folder" force2Hide="false" actionType="createNode" actionParam="DefaultFolderRule" />
-        <btnNewFile text="Add new file" force2Hide="false" actionType="createNode" actionParam="DefaultFileRule" />
+        <btnNewNode displayName="Add new node" IsDisplayNameReadOnly="false" actionType="createNode" actionParam="DefaultNodeRule" />
+        <btnNewFolder displayName="Add new folder" IsDisplayNameReadOnly="false" actionType="createNode" actionParam="DefaultFolderRule" />
+        <btnNewFile displayName="Add new file" IsDisplayNameReadOnly="false" actionType="createNode" actionParam="DefaultFileRule" />
       </resourceAddition>
       <nodeDisplay>
-        <inputName force2Hide="false" actionType="none" placeHolder="please input name" />
-        <inputParams force2Hide="false" actionType="none" placeHolder="input paramters if it is need" />
-        <btnSelectFile force2Hide="true" actionType="none" />
-        <btnPreview force2Hide="false" actionType="none" />
-        <btnSave force2Hide="false" actionType="none" />
-        <btnAddNode force2Hide="false" actionType="none" />
-        <btnRemoveNode force2Hide="true" actionType="none" />
+        <inputName IsDisplayNameReadOnly="true" actionType="none" placeHolder="please input name" />
+        <inputParams IsDisplayNameReadOnly="false" actionType="none" placeHolder="input paramters if it is need" />
+        <btnPreview IsDisplayNameReadOnly="false" actionType="none" />
+        <btnSave IsDisplayNameReadOnly="false" actionType="none" />
+        <btnAddNode IsDisplayNameReadOnly="false" actionType="none" />
       </nodeDisplay>
     </XRTNodeDisplayRule>
     <XRTNodeDisplayRule>
       <ruleName>DefaultNodeRule</ruleName>
       <resourceAddition>
-        <btnNewNode text="Add new node" force2Hide="false" actionType="createNode" actionParam="DefaultNodeRule" />
-        <btnNewFolder text="Add new folder" force2Hide="false" actionType="createNode" actionParam="DefaultFolderRule" />
-        <btnNewFile text="Add new file" force2Hide="false" actionType="createNode" actionParam="DefaultFileRule" />
+        <btnNewNode displayName="Add new node" IsDisplayNameReadOnly="false" actionType="createNode" actionParam="DefaultNodeRule" />
+        <btnNewFolder displayName="Add new folder" IsDisplayNameReadOnly="false" actionType="createNode" actionParam="DefaultFolderRule" />
+        <btnNewFile displayName="Add new file" IsDisplayNameReadOnly="false" actionType="createNode" actionParam="DefaultFileRule" />
       </resourceAddition>
       <nodeDisplay>
-        <inputName force2Hide="false" actionType="none" placeHolder="please input name" />
-        <inputParams force2Hide="false" actionType="none" placeHolder="input paramters if it is need" />
-        <btnSelectFile force2Hide="true" actionType="none" />
-        <btnPreview force2Hide="true" actionType="none" />
-        <btnSave force2Hide="true" actionType="none" />
-        <btnAddNode force2Hide="false" actionType="none" />
-        <btnRemoveNode force2Hide="false" actionType="none" />
+        <inputName IsDisplayNameReadOnly="false" actionType="none" placeHolder="please input name" />
+        <inputParams IsDisplayNameReadOnly="false" actionType="none" placeHolder="input paramters if it is need" />
+        <btnAddNode IsDisplayNameReadOnly="false" actionType="none" />
+        <btnRemoveNode IsDisplayNameReadOnly="false" actionType="none" />
       </nodeDisplay>
     </XRTNodeDisplayRule>
     <XRTNodeDisplayRule>
       <ruleName>DefaultFileRule</ruleName>
       <resourceAddition>
-        <btnNewNode text="Add new node" force2Hide="false" actionType="createNode" actionParam="DefaultNodeRule" />
-        <btnNewFolder text="Add new folder" force2Hide="false" actionType="createNode" actionParam="DefaultFolderRule" />
-        <btnNewFile text="Add new file" force2Hide="false" actionType="createNode" actionParam="DefaultFileRule" />
+        <btnNewNode displayName="Add new node" IsDisplayNameReadOnly="false" actionType="createNode" actionParam="DefaultNodeRule" />
+        <btnNewFolder displayName="Add new folder" IsDisplayNameReadOnly="false" actionType="createNode" actionParam="DefaultFolderRule" />
+        <btnNewFile displayName="Add new file" IsDisplayNameReadOnly="false" actionType="createNode" actionParam="DefaultFileRule" />
       </resourceAddition>
       <nodeDisplay>
-        <inputName force2Hide="false" actionType="none" placeHolder="please input name" />
-        <inputParams force2Hide="false" actionType="none" placeHolder="input paramters if it is need" />
-        <btnSelectFile text="select file" force2Hide="false" actionType="none" />
-        <btnPreview force2Hide="false" actionType="none" />
-        <btnSave force2Hide="true" actionType="none" />
-        <btnAddNode force2Hide="false" actionType="none" />
-        <btnRemoveNode force2Hide="false" actionType="none" />
+        <inputName IsDisplayNameReadOnly="true" actionType="none" placeHolder="Target file is empty, please select file" />
+        <inputParams IsDisplayNameReadOnly="false" actionType="none" placeHolder="input paramters if it is need" />
+        <btnSelectFile displayName="select file" IsDisplayNameReadOnly="false" actionType="none" />
+        <btnPreview IsDisplayNameReadOnly="false" actionType="none" />
+        <btnRemoveNode IsDisplayNameReadOnly="false" actionType="none" />
       </nodeDisplay>
     </XRTNodeDisplayRule>
     <XRTNodeDisplayRule>
       <ruleName>DefaultFolderRule</ruleName>
       <resourceAddition>
-        <btnNewNode text="Add new node" force2Hide="false" actionType="createNode" actionParam="DefaultNodeRule" />
-        <btnNewFolder text="Add new folder" force2Hide="false" actionType="createNode" actionParam="DefaultFolderRule" />
-        <btnNewFile text="Add new file" force2Hide="false" actionType="createNode" actionParam="DefaultFileRule" />
+        <btnNewNode displayName="Add new node" IsDisplayNameReadOnly="false" actionType="createNode" actionParam="DefaultNodeRule" />
+        <btnNewFolder displayName="Add new folder" IsDisplayNameReadOnly="false" actionType="createNode" actionParam="DefaultFolderRule" />
+        <btnNewFile displayName="Add new file" IsDisplayNameReadOnly="false" actionType="createNode" actionParam="DefaultFileRule" />
       </resourceAddition>
       <nodeDisplay>
-        <inputName force2Hide="false" actionType="none" placeHolder="please input name" />
-        <inputParams force2Hide="false" actionType="none" placeHolder="input paramters if it is need" />
-        <btnSelectFile text="select folder" force2Hide="false" actionType="none" />
-        <btnPreview force2Hide="false" actionType="none" />
-        <btnSave force2Hide="true" actionType="none" />
-        <btnAddNode force2Hide="false" actionType="none" />
-        <btnRemoveNode force2Hide="false" actionType="none" />
+        <inputName IsDisplayNameReadOnly="true" actionType="none" placeHolder="Target folder is empty, please select folder" />
+        <inputParams IsDisplayNameReadOnly="false" actionType="none" placeHolder="input paramters if it is need" />
+        <btnSelectFile displayName="select folder" IsDisplayNameReadOnly="false" actionType="none" />
+        <btnPreview IsDisplayNameReadOnly="false" actionType="none" />
+        <btnAddNode IsDisplayNameReadOnly="false" actionType="none" />
+        <btnRemoveNode IsDisplayNameReadOnly="false" actionType="none" />
       </nodeDisplay>
     </XRTNodeDisplayRule>
   </rules>
-  <node name="example.xml" type="file" ruleName="DefaultRootRule">
-    <XRTNode name="this is virtual node" paramaters="" type="node" ruleName="DefaultNodeRule">
-      <XRTNode name="this is a folder" type="folder" path="StreamingAssets\示例根目录\图片" ruleName="DefaultFolderRule">
-        <XRTNode name="this is a picture" type="file" path="StreamingAssets\示例根目录\图片\2c74600e6703b019d9382157120c02a7.jpg" ruleName="DefaultFileRule" />
+  <node name="example" type="file" ruleName="DefaultRootRule">
+    <XRTNode name="virtual node" type="node" ruleName="DefaultNodeRule">
+      <XRTNode name="图片组" type="folder" path="StreamingAssets\示例根目录\图片组" ruleName="DefaultFolderRule">
+        <XRTNode name="image1.jpg" type="file" path="StreamingAssets\示例根目录\图片组\image1.jpg" ruleName="DefaultFileRule" />
+        <XRTNode name="image2.jpeg" type="file" path="StreamingAssets\示例根目录\图片组\image2.jpeg" ruleName="DefaultFileRule" />
+        <XRTNode name="image3.jpg" type="file" path="StreamingAssets\示例根目录\图片组\image3.jpg" ruleName="DefaultFileRule" />
       </XRTNode>
     </XRTNode>
-    <XRTNode name="FolderNode" type="folder" path="StreamingAssets\示例根目录\图片" ruleName="DefaultFolderRule" />
-    <XRTNode name="this is a text" type="file" path="StreamingAssets\示例根目录\图片\文字.txt" ruleName="DefaultFileRule" />
+    <XRTNode type="node" ruleName="DefaultNodeRule">
+      <XRTNode type="file" ruleName="DefaultFileRule" />
+      <XRTNode name="文字.txt" type="file" path="StreamingAssets\示例根目录\图片\文字.txt" ruleName="DefaultFileRule" />
+    </XRTNode>
   </node>
 </XMLNodeRoot>

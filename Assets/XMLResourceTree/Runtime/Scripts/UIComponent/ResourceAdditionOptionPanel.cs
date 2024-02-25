@@ -47,7 +47,11 @@ namespace XMLResourceTree
             _completeSource?.SetResult(Result.cancel);
         }
 
-        public async Task<Result> InvokePanel()
+        /// <summary>
+        /// 等待用户完成选择
+        /// </summary>
+        /// <returns></returns>
+        public async Task<Result> AwaitForSelection()
         {
             _completeSource = new TaskCompletionSource<Result>();
             return await _completeSource.Task;
