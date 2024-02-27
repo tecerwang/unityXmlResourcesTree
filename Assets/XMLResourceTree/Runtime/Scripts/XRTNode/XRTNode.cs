@@ -35,7 +35,7 @@ namespace XMLResourceTree
             {
                 using (StreamWriter writer = new StreamWriter(filePath))
                 {
-                    XmlSerializer serializer = new XmlSerializer(typeof(XMLNodeRoot));                   
+                    XmlSerializer serializer = new XmlSerializer(typeof(XMLNodeRoot));
                     serializer.Serialize(writer, this);
                 }
 
@@ -119,7 +119,7 @@ namespace XMLResourceTree
         /// </summary>
         [XmlAttribute("name")]
         public string name;
-       
+
         /// <summary>
         /// 运行参数
         /// </summary>
@@ -165,6 +165,51 @@ namespace XMLResourceTree
         public string AbsolutePath()
         {
             return GetAbsolutePath(Application.streamingAssetsPath, path);
+        }
+
+        /// <summary>
+        /// node 文件类型
+        /// </summary>
+        public enum FileType
+        {
+            text,
+            picture,
+            video,
+            audio,
+            unknown
+        }
+
+        /// <summary>
+        /// node 上的文件类型，只有 file 形式的 node 才能获取到文件类型，通过文件后缀获得
+        /// </summary>
+        /// <returns></returns>
+        public FileType GetFileType()
+        {
+            if (string.IsNullOrEmpty(path))
+            {
+                return FileType.unknown;
+            }
+            string extension = Path.GetExtension(path);
+            switch (extension.ToLower())
+            {
+                case ".txt":
+                case ".rtf":
+                    return FileType.text;
+                case ".jpg":
+                case ".jpeg":
+                case ".png":
+                    return FileType.picture;
+                case ".mp4":
+                case ".avi":
+                case ".wav":
+                    return FileType.video;
+                case ".mp3":
+                    return FileType.video;
+
+                default:
+                    return FileType.unknown;
+
+            }
         }
 
         public static string GetRelativePath(string rootPath, string fullPath)
@@ -233,5 +278,5 @@ namespace XMLResourceTree
             }
             return string.Empty;
         }
-    } 
+    }
 }
