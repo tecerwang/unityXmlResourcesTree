@@ -117,7 +117,7 @@ namespace XMLResourceTree
                 panel.ApplyRule(xrtNode.rule.resourceAddition);
             }
             var result = await panel.AwaitForSelection();
-            await PopupScreen.singleton.DestoryPopup(panel.gameObject);
+            await PopupScreen.singleton.DestroyPopup(panel);
 
             if (result == ResourceAdditionOptionPanel.Result.cancel)
             {

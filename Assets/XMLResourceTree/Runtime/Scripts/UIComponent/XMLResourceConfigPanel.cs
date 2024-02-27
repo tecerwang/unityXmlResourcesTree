@@ -77,7 +77,7 @@ namespace XMLResourceTree
                 if (popup != null)
                 {
                     var fileName = await popup.WaitingForResult();
-                    await PopupScreen.singleton.DestoryPopup(popup.gameObject);
+                    await PopupScreen.singleton.DestroyPopup(popup);
                     if (string.IsNullOrEmpty(fileName))
                     {
                         menuFileOptions.ShrinkAfterOperationSuccess();
