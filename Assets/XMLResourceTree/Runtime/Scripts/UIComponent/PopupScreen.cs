@@ -17,22 +17,22 @@ namespace XMLResourceTree
 
         public override string screenName => "PopupScreen";
 
-        public override async Task OnScreenGoingLeave()
+        protected override async Task OnScreenGoingLeave()
         {
             await Task.CompletedTask;
         }
 
-        public override async Task OnScreenGoingShow()
+        protected override async Task OnScreenGoingShow()
         {
             await Task.CompletedTask;
         }
 
-        public override async Task OnScreenHidden()
+        protected override async Task OnScreenHidden()
         {
             await Task.CompletedTask;
         }
 
-        public override async Task OnScreenShown()
+        protected override async Task OnScreenShown()
         {
             await Task.CompletedTask;
         }

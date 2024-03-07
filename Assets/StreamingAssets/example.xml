@@ -72,7 +72,8 @@
     </XRTNode>
     <XRTNode type="node" ruleName="DefaultNodeRule">
       <XRTNode type="file" ruleName="DefaultFileRule" />
-      <XRTNode name="文字.txt" type="file" path="StreamingAssets\示例根目录\图片\文字.txt" ruleName="DefaultFileRule" />
+      <XRTNode name="example.xml" type="file" path="StreamingAssets\example.xml" ruleName="DefaultFileRule" />
     </XRTNode>
+    <XRTNode type="node" ruleName="DefaultNodeRule" />
   </node>
 </XMLNodeRoot>

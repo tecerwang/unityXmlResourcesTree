@@ -69,7 +69,7 @@ namespace XMLResourceTree
             rules.btnNewFile.ApplyBtnRule(btnAddFile);
         }
 
-        public override async Task OnPopupGoingShow()
+        protected override async Task OnPopupGoingShow()
         {
             btnAddNodeRoot.onClick.AddListener(OnBtnAddNode);
             btnAddFolder.onClick.AddListener(OnBtnAddFolder);
@@ -79,17 +79,17 @@ namespace XMLResourceTree
             await Task.CompletedTask;
         }
 
-        public override async Task OnPopupShown()
+        protected override async Task OnPopupShown()
         {
             await Task.CompletedTask;
         }
 
-        public override async Task OnPopupGoingLeave()
+        protected override async Task OnPopupGoingLeave()
         {
             await Task.CompletedTask;
         }
 
-        public override async Task OnPopupHidden()
+        protected override async Task OnPopupHidden()
         {
             await Task.CompletedTask;
         }

@@ -19,24 +19,24 @@ namespace XMLResourceTree
 
         public override string popupName => "NewFileNameInputPopup";
 
-        public override async Task OnPopupGoingLeave()
+        protected override async Task OnPopupGoingLeave()
         {
             await Task.CompletedTask;
         }
 
-        public override async Task OnPopupGoingShow()
+        protected override async Task OnPopupGoingShow()
         {
             btnCreate.onClick.AddListener(BtnCreate);
             btnCancel.onClick.AddListener(BtnCancel);
             await Task.CompletedTask;
         }
 
-        public override async Task OnPopupHidden()
+        protected override async Task OnPopupHidden()
         {
             await Task.CompletedTask;
         }
 
-        public override async Task OnPopupShown()
+        protected override async Task OnPopupShown()
         {
             await Task.CompletedTask;
         }
