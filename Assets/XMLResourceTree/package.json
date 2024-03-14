@@ -1,6 +1,6 @@
 {
     "name": "com.xrtnode.unity",
-    "version": "0.0.2",
+    "version": "1.0.0",
     "displayName": "Unity Xml ResourcesTree",
     "description": "Use xml to persist files or folder and logic tree within unity StreamingAssets and loaded in runtime",
     "unity": "2019.1",
